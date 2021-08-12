@@ -1,0 +1,36 @@
+{
+    "dev": {
+        "dbtmp": "sandbox",
+        "db": "sandbox",
+        "hdfstmp": "/data/project/",
+        "hdfs": "/data/project/"
+    },
+
+    "area": {
+        "dbtmp": "sandbox_area",
+        "db": "sandbox",
+        "hdfstmp": "/data/project/",
+        "hdfs": "/data/project/"
+    },
+
+    "policy": {
+        "dbtmp": "sandbox",
+        "db": "sandbox",
+        "hdfstmp": "/data/project/",
+        "hdfs": "/data/project/"
+    },
+
+    "prod": {
+        "dbtmp": "prodtmp",
+        "db": "proddb",
+        "hdfstmp": "/data/prod/project/",
+        "hdfs": "/data/prod/project/"
+    },
+
+    "users": {
+        "narumi": "dev",
+        "john": "area",
+        "mary": "prod",
+        "tracy": "policy"
+    }
+}
