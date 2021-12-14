@@ -9,6 +9,13 @@ from user import User
 
 
 class Melonpan:      
+    def __init__ (self, setupfile=None):
+        self.username = getpass.getuser()
+        self.groups = {}
+        self.load_setup(setupfile)
+        self.parse_setup()
+        self.load_user_settings()
+
     def get_groups(self):
         return list(self.groups.keys())
 
@@ -29,11 +36,13 @@ class Melonpan:
             if key != 'users':
                 self.groups[key] = self.create_group(settings)
             else:
+                self.usergroup = settings
                 self.users = self.create_users(settings)
             
-    def load_setup(self):
-        libdir = os.path.dirname(__file__)
-        setupfile = os.path.join(libdir, 'setup.json')
+    def load_setup(self, setupfile):
+        if not setupfile:
+            libdir = os.path.dirname(__file__)
+            setupfile = os.path.join(libdir, 'melonsetup.json')
         try:            
             with open(setupfile, 'r') as f:
                 self.setup = json.load(f)
@@ -41,23 +50,36 @@ class Melonpan:
             sys.exit(f"Error loading setup file: {setupfile}")
 
     def load_user_settings(self):
-        try:
-            group = self.groups[self.users[self.username].group]
-        except:
-            group = self.groups['prod'] # testar
-        for name in group.attribs:            
+        group = self.get_current_group_obj()
+        self.attribs = group.attribs
+        for name in self.attribs:       
             setattr(self, name, getattr(group, name))
 
-    def __init__ (self):
-        self.username = getpass.getuser()
-        self.groups = {}
-        self.load_setup()
-        self.parse_setup()
-        self.load_user_settings()
+    def get_current_group_name(self):
+        try:
+            self.groups[self.users[self.username].group]
+            group_name = self.users[self.username].group
+        except:
+            group_name = 'prod'
+        return group_name 
+
+    def get_current_group_obj(self):
+        group_name = self.get_current_group_name()
+        return self.groups[group_name]
+
+    def get_userlist(self):
+        return list(self.users.keys())
+
+    def report(self):
+        print(f"usuario: {self.username}")
+        print(f"grupo: {self.get_current_group_name()}")
+        print(f"{self.attribs}")
+
 
 def main():
     melon = Melonpan()
     print(melon.db)
+    melon.report()
     #print(melon.users["narumi"].group)
     #print(melon.groups["dev"].db)
     
