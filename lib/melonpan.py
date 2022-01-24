@@ -70,7 +70,7 @@ class Melonpan:
     def get_userlist(self):
         return list(self.users.keys())
 
-    def report(self):
+    def show(self):
         print(f"usuario: {self.username}")
         print(f"grupo: {self.get_current_group_name()}")
         print(f"{self.attribs}")
@@ -79,7 +79,7 @@ class Melonpan:
 def main():
     melon = Melonpan()
     print(melon.db)
-    melon.report()
+    melon.show()
     #print(melon.users["narumi"].group)
     #print(melon.groups["dev"].db)
     
